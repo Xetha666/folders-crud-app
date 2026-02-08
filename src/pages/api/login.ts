@@ -7,7 +7,6 @@ const SECRET = new TextEncoder().encode(import.meta.env.JWT_SECRET);
 
 export const POST: APIRoute = async ({ request, cookies }) => {
   const { username, password } = await request.json();
-  console.log("Login attempt:", { username, password });
   if (!username || !password) {
     return new Response(
       JSON.stringify(

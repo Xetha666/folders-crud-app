@@ -7,11 +7,6 @@ import EyeVisibility from "/public/svg/eye-visibility.svg";
 import EyeVisibilityDashed from "/public/svg/eye-visibility-dashed.svg";
 import Warning from "/public/svg/warning.svg";
 import Login from "/public/svg/login.svg";
-
-import { db, User } from 'astro:db';
-const Users = await db.select().from(User);
-console.log("Users:", Users)
-
 ---
 <Layout>
     <form method="POST" id="login-form" class="relative z-10 flex flex-1 items-center justify-center p-4 sm:p-8">
