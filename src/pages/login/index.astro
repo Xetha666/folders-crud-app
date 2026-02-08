@@ -1,0 +1,191 @@
+---
+import Layout from "@/layouts/Layout.astro";
+import Shield from "/public/svg/shield.svg";
+import Lock from "/public/svg/user-password.svg";
+import UserIcon from "/public/svg/user.svg";
+import EyeVisibility from "/public/svg/eye-visibility.svg";
+import EyeVisibilityDashed from "/public/svg/eye-visibility-dashed.svg";
+import Warning from "/public/svg/warning.svg";
+import Login from "/public/svg/login.svg";
+
+import { db, User } from 'astro:db';
+const Users = await db.select().from(User);
+console.log("Users:", Users)
+
+---
+<Layout>
+    <form method="POST" id="login-form" class="relative z-10 flex flex-1 items-center justify-center p-4 sm:p-8">
+      <div class="w-full max-w-115 bg-tactical-dark border border-tactical-olive/50 shadow-2xl rounded-lg overflow-hidden flex flex-col">
+        
+        <div class="relative h-48 bg-tactical-green flex flex-col items-center justify-center border-b border-tactical-olive/30">
+          <div class="absolute top-0 w-full h-1.5 bg-primary"></div>
+          
+          <div class="w-20 h-20 bg-tactical-olive/20 rounded-full flex items-center justify-center mb-3 border border-tactical-olive/50 shadow-inner">
+            <Shield class="size-12 text-primary/90"/>
+          </div>
+          
+          <h2 class="text-white tracking-wide text-2xl font-bold uppercase drop-shadow-md">Depincri Chanchamayo</h2>
+          <p class="text-gray-400 text-sm font-medium mt-1 uppercase tracking-widest">Acceso Restringido</p>
+        </div>
+
+        <div class="p-8 flex flex-col gap-6 bg-black/20">
+          
+          <!--Usuario-->
+          <div class="flex flex-col gap-2 group">
+            <label for="username" class="select-none text-gray-300 text-sm font-semibold uppercase tracking-wider flex items-center gap-2">
+              <UserIcon class="size-5 text-primary"/>
+              Oficial ID
+            </label>
+            <div class="relative">
+              <input 
+                class="w-full bg-background-dark/50 text-white border-2 border-tactical-olive rounded focus:border-primary focus:ring-0 focus:outline-none h-12 pl-4 pr-10 placeholder-gray-600 transition-colors" 
+                id="username" 
+                name="username"
+                placeholder="Usuario" 
+                type="text"
+              />
+              
+            </div>
+          </div>          
+
+          <!--Contraseña-->
+          <div class="flex flex-col gap-2 group">
+            <label for="password" class="select-none text-gray-300 text-sm font-semibold uppercase tracking-wider flex items-center gap-2">
+              <Lock class="size-5 text-primary"/>
+              Contraseña
+            </label>
+            <div class="relative">
+              <input id="password" name="password" class="w-full bg-background-dark/50 text-white border-2 border-tactical-olive rounded focus:border-primary focus:ring-0 focus:outline-none h-12 pl-4 pr-10 placeholder-gray-600 transition-colors"                  placeholder="••••••••••••" type="password"/>
+              <button id="toggle-password" type="button" class="cursor-pointer absolute inset-y-0 right-0 flex items-center pr-3 text-gray-500 hover:text-white transition-colors">
+                <div id="eye-show" class="transition-all duration-300 ease-out">
+                  <EyeVisibility class="size-6"/>
+                </div>
+                <div id="eye-hide" class="hidden transition-all duration-200 text-primary">
+                  <EyeVisibilityDashed class="size-6"/> 
+                </div>
+              </button>
+            </div>            
+          </div>
+
+          <p id="error-message" class="text-red-500 text-sm hidden"></p>
+
+          <button class="cursor-pointer mt-4 w-full bg-tactical-highlight hover:bg-white text-black font-bold h-12 rounded uppercase tracking-wider shadow-lg hover:shadow-primary/40 transition-all duration-300 flex items-center justify-center gap-2 border border-transparent hover:border-primary">
+            <Login class="size-6"/>
+            Ingreso Seguro
+          </button>
+        </div>
+
+        <div class="bg-tactical-dark p-4 border-t border-tactical-olive/30">
+          <div class="flex items-start gap-3">
+            <Warning class="size-15 text-yellow-500"/>
+            <p class="text-[11px] leading-relaxed text-gray-500">
+              <strong class="text-gray-400 block mb-0.5 uppercase">Solo para uso autorizado</strong>
+              El acceso a este sistema es monitoreado y está restringido exclusivamente a personal autorizado. Los intentos de acceso no autorizados serán registrados y procesados legalmente.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <div class="fixed bottom-0 w-full bg-background-dark/80 text-gray-600 text-small py-1 px-4 flex justify-between uppercase tracking-widest border-t border-white/5">
+        <span>System Status: <span class="text-primary">Operational</span></span>
+        <span>Ver 0.0.1</span>
+      </div>
+    </form>
+</Layout>
+
+<!--Mostrar/Ocultar contraseña-->
+<script>
+  const toggleBtn = document.getElementById('toggle-password');
+  const passwordInput = document.getElementById('password') as HTMLInputElement;
+  const eyeShow = document.getElementById('eye-show');
+  const eyeHide = document.getElementById('eye-hide');
+
+  toggleBtn?.addEventListener('click', () => {
+    const isPassword = passwordInput.type === 'password';
+    passwordInput.type = isPassword ? 'text' : 'password';
+
+    if (isPassword) {
+      // MOSTRAR CONTRASEÑA
+      eyeShow?.classList.add('hidden');
+      eyeShow?.classList.remove('flex');
+      
+      eyeHide?.classList.remove('hidden');
+      eyeHide?.classList.add('flex');
+      
+      eyeHide?.animate([
+        { transform: 'scale(0.5) rotate(-45deg)', opacity: 0 },
+        { transform: 'scale(1) rotate(0deg)', opacity: 1 }
+      ], { duration: 250, easing: 'ease-out' });
+
+    } else {
+      // OCULTAR CONTRASEÑA
+      eyeHide?.classList.add('hidden');
+      eyeHide?.classList.remove('flex');
+      
+      eyeShow?.classList.remove('hidden');
+      eyeShow?.classList.add('flex');
+
+      eyeShow?.animate([
+        { transform: 'scale(0.5)', opacity: 0 },
+        { transform: 'scale(1)', opacity: 1 }
+      ], { duration: 250, easing: 'ease-out' });
+    }
+  });
+</script>
+
+<!--POST-->
+<script>
+  import type { LoginPayload } from "@/types/login";
+
+  const form = document.getElementById('login-form') as HTMLFormElement | null;
+  const errorMessage = document.getElementById('error-message') as HTMLParagraphElement | null;
+
+  form?.addEventListener('submit', async (e: SubmitEvent) => {
+    e.preventDefault();
+
+    if (!form) return;
+
+    const formData = new FormData(form);
+    const username = formData.get('username');
+    const password = formData.get('password');
+
+    // Validación táctica: Aseguramos que los datos existen antes de enviarlos
+    if (typeof username !== 'string' || typeof password !== 'string' || !username.trim() || !password.trim()) {
+      if (errorMessage) {
+        errorMessage.textContent = 'Por favor, complete todos los campos.';
+        errorMessage.classList.remove('hidden');
+      }
+      return;
+    }
+
+    const payload: LoginPayload = {
+      username: username,
+      password: password,
+    };
+
+    try {
+      const response = await fetch('/api/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(payload),
+      });
+
+      const data: { error?: string } = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.error || 'Error en el login');
+      }
+
+      // Redirigir al usuario
+      window.location.href = '/folders';   
+
+    } catch (error) {
+      if (errorMessage && error instanceof Error) {
+        errorMessage.textContent = error.message;
+        errorMessage.classList.remove('hidden');
+      }
+    }
+  });
+</script>
