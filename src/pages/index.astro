@@ -1,11 +1,11 @@
 ---
-import Welcome from '../components/Welcome.astro';
-import Layout from '../layouts/Layout.astro';
-
-// Welcome to Astro! Wondering what to do next? Check out the Astro documentation at https://docs.astro.build
-// Don't want to use any of this? Delete everything in this file, the `assets`, `components`, and `layouts` directories, and start fresh.
+import Layout from '@/layouts/Layout.astro';
+export const prerender = true
 ---
-
 <Layout>
-	<Welcome />
+	<div>
+		<!--TODO: Mejorar estilos o usar una biblioteca de componentes-->
+		<a href="/login" class="cursor-pointer px-1 py-3 w-full bg-tactical-highlight hover:bg-white text-black font-bold h-12 rounded uppercase tracking-wider shadow-lg hover:shadow-primary/40 transition-all duration-300 flex items-center justify-center gap-2 border border-transparent hover:border-primary" rel="noopener noreferrer">Iniciar Sesion</a>
+	</div>
 </Layout>
+
