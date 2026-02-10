@@ -19,5 +19,8 @@
     "tailwind-animations": "^1.0.1",
     "tailwindcss": "^4.1.18",
     "zod": "^4.3.6"
+  },
+  "devDependencies": {
+    "daisyui": "^5.5.18"
   }
 }
