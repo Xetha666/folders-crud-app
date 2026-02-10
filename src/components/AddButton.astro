@@ -1,0 +1,65 @@
+---
+import Carpet from "public/svg/carpet.svg";
+import Instructor from "public/svg/instructor.svg";
+import Procedencia from "public/svg/procedencia.svg";
+import Modal from "@/components/Modal.astro";
+import { ADMIN_ACTIONS } from "@/data/button";
+
+const iconComponents: Record<string, any> = {
+  IconProcedencia: Procedencia,
+  IconInstructor: Instructor,
+  IconCarpet: Carpet,
+}
+---
+
+<div class="flex flex-wrap gap-4 p-4">
+  {ADMIN_ACTIONS.map(({ id, label, icon, colorClass }) => {
+    const Icon = iconComponents[icon];
+    return (
+      <button class={`btn text-white shadow-lg transition-all duration-300 ${colorClass}`} data-target={id}>
+        <Icon class="size-5" />
+      {label}
+    </button>
+  )})}
+</div>
+
+{ADMIN_ACTIONS.map(({ id, title, description }) => (
+  <Modal id={id} title={title}>
+    <p class="text-gray-400 text-sm">{description}</p>
+  </Modal>
+))}
+
+<script>
+  const setupModals = () => {
+    const modalButtons = document.querySelectorAll('.btn[data-target]');
+
+    modalButtons.forEach(button => {
+      button.addEventListener('click', () => {
+        const targetId = button.getAttribute('data-target');
+        if (!targetId) return;
+        const modal = document.getElementById(targetId) as HTMLDialogElement;
+        modal?.showModal();
+      });
+    });
+  };
+
+  window.addEventListener("keydown",(event) => {
+      const activeModal = document.querySelector('dialog[open]') as HTMLDialogElement;
+      
+      if (event.key === "Escape" && activeModal) {
+        event.preventDefault();
+        event.stopImmediatePropagation();
+
+        const activeElement = document.activeElement as HTMLInputElement | HTMLTextAreaElement;
+        const isEditable = activeElement && (activeElement.tagName === "INPUT" || activeElement.tagName === "TEXTAREA");
+
+        if (isEditable) {
+          activeElement.value = "";
+        }
+      }
+    },
+    true, 
+  );
+
+  setupModals();
+</script>
