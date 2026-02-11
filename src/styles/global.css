@@ -1,14 +1,15 @@
 @import "tailwindcss";
-@import 'tailwind-animations';
-:root{
-    color-scheme: dark;
-}
+@plugin "daisyui" {
+  themes: dark --default; 
+}@import 'tailwind-animations';
+
 
 @theme{
     /* Colores Personalizados */
-    --color-primary: #59b319;
-    --color-background-light: #f7f8f6;
-    --color-background-dark: #182111;
+    --color-police: #59b319;
+    --color-light: #f7f8f6;
+    --color-dark: #182111;
+    --color-base-100: #182111;
     --color-tactical-dark: #1f2421;
     --color-tactical-green: #2c3b2a;
     --color-tactical-olive: #4a5e46;
