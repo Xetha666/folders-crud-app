@@ -1,15 +1,17 @@
 ---
 import AddButton from "@/components/AddButton.astro";
+import Table from "@/components/Table.astro";
 import User from "@/components/User.astro";
 import Layout from "@/layouts/Layout.astro";
-
-const title = "Carpetas";
 ---
 
-<Layout title={title}>
+<Layout title="Carpetas Fiscales">
     <header class="w-full flex justify-between items-center p-4">
         <User/>
         <AddButton/>
     </header>
+    <main>
+        <Table/>
+    </main>
 </Layout>
 
