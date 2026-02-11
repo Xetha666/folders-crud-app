@@ -15,6 +15,11 @@
     --color-tactical-olive: #4a5e46;
     --color-tactical-highlight: #e6e8e6;
 
+    --color-table-head: #4B5320;
+    --color-table-accent: #a9b79e;
+    --color-test-1: #2a3024;
+    --color-test-2: #1a1e16;
+
     --text-small: 0.625rem; /* 10px */
 
     /* TODO:Falta descargar la fuente y usarla */
