@@ -1,4 +1,4 @@
-import { db, User } from 'astro:db';
+import { db, User,Precedence,Fiscal,Office,FolderFiscal} from 'astro:db';
 import bcrypt from 'bcryptjs';
 import 'dotenv/config';
 
