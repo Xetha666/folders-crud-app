@@ -19,6 +19,18 @@
     --color-table-accent: #a9b79e;
     --color-test-1: #2a3024;
     --color-test-2: #1a1e16;
+    --color-table-first-column: #DA9694;
+    --color-table-second-column: #C4D79B;
+    --color-table-third-column: #16365C;
+    --color-table-fourth-column: #16365C;
+    --color-table-fifth-column: #FFFFCC;
+    --color-table-sixth-column: #FFFFCC;
+    --color-table-seventh-column: #FABF8F;
+    --color-table-eighth-column: #215967;
+    --color-table-ninth-column: #215967;
+    --color-table-tenth-column: #FCD5B4;
+    --color-table-eleventh-column: #92CDDC;
+    --color-table-last-column: #FFFF00;
 
     --text-small: 0.625rem; /* 10px */
 
