@@ -1,18 +1,36 @@
 @import "tailwindcss";
-@import 'tailwind-animations';
-:root{
-    color-scheme: dark;
-}
+@plugin "daisyui" {
+  themes: dark --default; 
+}@import 'tailwind-animations';
+
 
 @theme{
     /* Colores Personalizados */
-    --color-primary: #59b319;
-    --color-background-light: #f7f8f6;
-    --color-background-dark: #182111;
+    --color-police: #59b319;
+    --color-light: #f7f8f6;
+    --color-dark: #182111;
+    --color-base-100: #182111;
     --color-tactical-dark: #1f2421;
     --color-tactical-green: #2c3b2a;
     --color-tactical-olive: #4a5e46;
     --color-tactical-highlight: #e6e8e6;
+
+    --color-table-head: #4B5320;
+    --color-table-accent: #a9b79e;
+    --color-test-1: #2a3024;
+    --color-test-2: #1a1e16;
+    --color-table-first-column: #DA9694;
+    --color-table-second-column: #C4D79B;
+    --color-table-third-column: #16365C;
+    --color-table-fourth-column: #16365C;
+    --color-table-fifth-column: #FFFFCC;
+    --color-table-sixth-column: #FFFFCC;
+    --color-table-seventh-column: #FABF8F;
+    --color-table-eighth-column: #215967;
+    --color-table-ninth-column: #215967;
+    --color-table-tenth-column: #FCD5B4;
+    --color-table-eleventh-column: #92CDDC;
+    --color-table-last-column: #FFFF00;
 
     --text-small: 0.625rem; /* 10px */
 

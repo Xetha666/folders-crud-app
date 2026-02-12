@@ -1,20 +1,17 @@
 ---
+import AddButton from "@/components/AddButton.astro";
+import Table from "@/components/Table.astro";
+import User from "@/components/User.astro";
 import Layout from "@/layouts/Layout.astro";
 ---
 
-<Layout>
-    <h1>Usuario Logueado Exitosamente</h1>
-    <button id="logout-button" class="cursor-pointer px-1 py-3 w-full bg-tactical-highlight hover:bg-white text-black font-bold h-12 rounded uppercase tracking-wider shadow-lg hover:shadow-primary/40 transition-all duration-300 flex items-center justify-center gap-2 border border-transparent hover:border-primary">Cerrar sesión</button>
+<Layout title="Carpetas Fiscales">
+    <header class="w-full flex justify-between items-center p-4">
+        <User/>
+        <AddButton/>
+    </header>
+    <main>
+        <Table/>
+    </main>
 </Layout>
 
-<script>
-    const logoutButton = document.getElementById('logout-button') as HTMLButtonElement;
-    logoutButton?.addEventListener('click', async () => {
-        const response = await fetch('/api/logout', {
-            method: 'POST',
-        })
-        if(response.ok || response.redirected) {
-            window.location.href = '/login';
-        }
-    })
-</script>

@@ -1,21 +1,20 @@
 ---
-import Layout from "@/layouts/Layout.astro";
-export const prerender = true;
+import Layout from '@/layouts/Layout.astro';
+export const prerender = true
 ---
 
-<Layout>
-
-		<div >
-			<a
-				href="/login"
-				class="access cursor-pointer px-1 py-3 w -full bg-tactical-highlight hover:bg-white text-black font-bold h-12 rounded uppercase tracking-wider shadow-lg hover:shadow-primary/40 transition-all duration-300 flex items-center justify-center gap-2 border border-transparent hover:border-primary"
-				rel="noopener noreferrer"
-			>
-				Login</a
-			>
-		</div>
+<Layout title="Bienvenido" bodyClass="flex items-center justify-center h-screen">
+	<div>
+		<a
+			href="/login"
+			class="access cursor-pointer px-1 py-3 w -full bg-tactical-highlight hover:bg-white text-black font-bold h-12 rounded uppercase tracking-wider shadow-lg hover:shadow-police/40 transition-all duration-300 flex items-center justify-center gap-2 border border-transparent hover:border-police"
+			rel="noopener noreferrer"
+		>
+			Login</a
+		>
 	</div>
-		<style>
+</Layout>
+<style>
 		.access {
 			padding: 20px;
 			letter-spacing: 2.5px;
@@ -93,7 +92,4 @@ export const prerender = true;
 				background-position: 0 0;
 			}
 		}
-
 	</style>
-
-</Layout>

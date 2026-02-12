@@ -6,7 +6,8 @@ const User = defineTable({
     username: column.text({ unique: true }),
     password: column.text(),
     name: column.text(),
-    role: column.text(),
+    role: column.text({ default: "user" }),
+    status: column.text({ default: "active" }),
     createdAt: column.date({default : NOW}),
   }
 })
