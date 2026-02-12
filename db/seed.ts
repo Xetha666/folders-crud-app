@@ -25,6 +25,7 @@ export default async function seed() {
       password: adminHashedPassword,
       name:"User Admin",
       role: "admin",
+      status: "active"
     },
     {
       id: crypto.randomUUID(),
@@ -32,6 +33,7 @@ export default async function seed() {
       password:hashedPassword,
       name: "Test User",
       role: "user",
+      status: "active"
     }
   ]);
 }
