@@ -11,31 +11,6 @@ const User = defineTable({
   }
 })
 
-const Office = defineTable({
-    columns:{
-      idOffice:column.number({primaryKey:true}),
-      yearOfCreation:column.date()
-    }
-
-  })
-
-
-
-
-
-const FolderFiscal = defineTable({
-    columns:{
-      idFolderFiscal:column.number({primaryKey:true}),
-      yearOfCreation:column.number(),
-      dateOfEntry:column.date(),
-      idOffice:column.number({unique:true}),
-      idOrigin:column.number(),
-      idFiscal:column.number()
-    }
-  })
-
-
-
 export default defineDb({
   tables: {User}
 });
