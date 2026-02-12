@@ -8,8 +8,8 @@ import EyeVisibilityDashed from "/public/svg/eye-visibility-dashed.svg";
 import Warning from "/public/svg/warning.svg";
 import Login from "/public/svg/login.svg";
 ---
-<Layout title="Login" bodyClass="flex items-center justify-center min-h-screen">
-    <form method="POST" id="login-form" class="flex items-center justify-center p-4 md:py-0 sm:p-8 animate-fade-in">
+<Layout title="Login" bodyClass="flex items-center justify-center">
+    <form method="POST" id="login-form" class="flex items-center justify-center mb-4 p-4 md:py-0 sm:p-8 animate-fade-in">
       <div class="w-full max-w-115 bg-tactical-dark border border-tactical-olive/50 shadow-2xl rounded-lg overflow-hidden flex flex-col">
         
         <div class="relative h-48  bg-tactical-green flex flex-col items-center justify-center border-b border-tactical-olive/30">
@@ -135,8 +135,6 @@ import Login from "/public/svg/login.svg";
 
   const form = document.getElementById('login-form') as HTMLFormElement | null;
   const errorMessage = document.getElementById('error-message') as HTMLParagraphElement | null;
-  const usernameInput = document.getElementById('username');
-  const passwordInput = document.getElementById('password');
 
   form?.addEventListener('submit', async (e: SubmitEvent) => {
     e.preventDefault();
