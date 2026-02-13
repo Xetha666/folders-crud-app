@@ -17,7 +17,9 @@ const iconComponents: Record<string, any> = {
 
 const listPrecedences = await db.select().from(Precedence)
 const listInstructors = await db.select().from(Instructor).innerJoin(Grade, eq(Instructor.idGrade, Grade.idGrade))
+const listGrades = await db.select().from(Grade)
 const listFiscals = await db.select().from(Fiscal)
+const listGenre = [{name: "Masculino"}, {name: "Femenino"}]
 ---
 
 <div class="flex flex-wrap gap-4 p-4">
@@ -90,7 +92,7 @@ const listFiscals = await db.select().from(Fiscal)
 </Modal>
 
 {/* Modales secundarios para Agregar/Eliminar */}
-{ACTIONS.map(({ id, firstInput, firstExample, secondInput, secondExample }) => {
+{ACTIONS.map(({ id, firstInput, firstExample, secondInput, secondExample, placeholder }) => {
   const isProcedencia = id === "modal_procedencia";
   const isInstructor = id === "modal_instructor";
   const actionLabel = isProcedencia ? "Procedencia" : isInstructor ? "Instructor" : "Fiscal";
@@ -102,46 +104,40 @@ const listFiscals = await db.select().from(Fiscal)
       <Modal id={`${id}_add`}>
         <h2 class="text-2xl font-bold text-success">Agregar {actionLabel}</h2>
         <form class="flex flex-col">
-          <p class="text-gray-400 text-sm">Ingresa tu {actionLabel.toLowerCase()} que deseas agregar.</p>
           
           <div class="flex flex-col">
             <label for={`new_short_${actionLabel.toLowerCase()}`} class="text-gray-400 text-base font-bold mt-4">{firstInput}</label>
             <label for={`new_short_${actionLabel.toLowerCase()}`} class="text-gray-400 text-xs">{(firstExample)}</label>
-            <input 
-              type="text" 
-              name={`new_short_${actionLabel.toLowerCase()}`}
-              id={`new_short_${actionLabel.toLowerCase()}`}
-              class="input input-bordered input-lg w-full bg-tactical-dark/50 border-success/30 focus:border-success text-white text-base mt-2" 
-              placeholder={`Escribe el nombre corto de ${actionLabel.toLowerCase()} aquí...`}
-              required
-            />
-            <label for={`new_${actionLabel.toLowerCase()}`} class="text-gray-400 text-base font-bold mt-2">{secondInput}</label>
-            <label for={`new_${actionLabel.toLowerCase()}`} class="text-gray-400 text-xs">{(secondExample)}</label>
-            {isProcedencia ? (
               <input 
                 type="text" 
-                name={`new_${actionLabel.toLowerCase()}`}
-                id={`new_${actionLabel.toLowerCase()}`}
-                class="input input-bordered input-lg w-full bg-tactical-dark/50 border-success/30 focus:border-success text-white text-base mt-2" 
-                placeholder={`Escribe el nombre real de ${actionLabel.toLowerCase()} aquí...`}
+                name={`new_short_${actionLabel.toLowerCase()}`}
+                id={`new_short_${actionLabel.toLowerCase()}`}
+                class="input input-bordered input-lg w-full bg-tactical-dark/50 border-success/30 focus:outline-none text-white text-base mt-2" 
+                placeholder={`${placeholder}`}
                 required
               />
-              /*TODO: Arrelgar el background del select una vez seleccionado*/
-            ) : isInstructor ? (                              
-                <select name={`new_${actionLabel.toLowerCase()}`} id={`new_${actionLabel.toLowerCase()}`} class="select select-bordered select-lg w-full bg-tactical-dark/50 selecte border-success/30 text-white text-base mt-2 focus:bg-tactical-dark focus:border-success focus:outline-none">
-                  <option disabled selected value="" class="text-white/50">--Seleccione el grado--</option>
-                  {listInstructors.map((instructor) => (
-                    <option value={instructor.Instructor.nameInstructor}>{instructor.Grade.shortNameGrade}. PNP {instructor.Instructor.nameInstructor}</option>
-                  ))}
-                </select>
-            ) : (
-              <select name={`new_${actionLabel.toLowerCase()}`} id={`new_${actionLabel.toLowerCase()}`} class="select select-bordered select-lg w-full bg-tactical-dark/50 selecte border-success/30 text-white text-base mt-2 focus:bg-tactical-dark focus:border-success focus:outline-none">
-                <option disabled selected value="">--Seleccione el fiscal--</option>
-                {listFiscals.map((fiscal) => (
-                  <option value={fiscal.nameFiscal}>{fiscal.nameFiscal}</option>
-                ))}
-              </select>
-            )}
+            <label for={`new_${actionLabel.toLowerCase()}`} class="text-gray-400 text-base font-bold mt-2">{secondInput}</label>
+            <label for={`new_${actionLabel.toLowerCase()}`} class="text-gray-400 text-xs">{(secondExample)}</label>
+              {isProcedencia ? (
+                <input type="text" name={`new_${actionLabel.toLowerCase()}`} id={`new_${actionLabel.toLowerCase()}`}class="input input-bordered input-lg w-full bg-tactical-dark/50 border-success/30 focus:outline-none text-white text-base mt-2" 
+                  placeholder={`Escribe la ${actionLabel.toLowerCase()} aquí...`}
+                  required
+                />
+                ) : isInstructor ? (                              
+                    <select name={`new_${actionLabel.toLowerCase()}`} id={`new_${actionLabel.toLowerCase()}`} class="select select-bordered select-lg w-full bg-tactical-dark/50 border-success/30 focus:outline-none text-white/60 text-base mt-2">
+                      <option disabled selected hidden value="" class="text-white/60 bg-tactical-dark">-Seleccione el grado-</option>
+                      {listGrades.map((grade) => (
+                        <option value={grade.nameGrade} class="bg-tactical-dark text-white/60">{grade.nameGrade}</option>
+                      ))}
+                    </select>
+                ) : (
+                  <select name={`new_${actionLabel.toLowerCase()}`} id={`new_${actionLabel.toLowerCase()}`} class="select select-bordered select-lg w-full bg-tactical-dark/50 border-success/30 text-white/60 text-base mt-2 focus:outline-none focus:bg-tactical-dark valid:bg-tactical-dark">     
+                    <option disabled selected hidden value="" class="text-white/60 bg-tactical-dark">-Seleccione el genero-</option>
+                    {listGenre.map((genre) => (
+                      <option value={genre.name} class="bg-tactical-dark text-white/60">{genre.name}</option>
+                    ))}
+                  </select>
+                )}
           </div>
 
           <div class="flex gap-3 justify-end mt-4">
