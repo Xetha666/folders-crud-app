@@ -3,7 +3,6 @@ export interface Button {
   label: string;
   icon: string;
   colorClass: string;
-  description: string;
 }
 
 export const ACTIONS: Button[] = [
@@ -12,13 +11,17 @@ export const ACTIONS: Button[] = [
     label: "Procedencia",
     icon: "IconProcedencia",
     colorClass: "btn-secondary border-secondary shadow-secondary/20 hover:shadow-secondary/40",
-    description: "Formulario para registrar la procedencia..."
   },
   {
     id: "modal_instructor",
     label: "Instructores",
     icon: "IconInstructor",
     colorClass: "btn-info border-info shadow-info/20 hover:shadow-info/40",
-    description: "Seleccione el oficial a cargo del caso..."
+  },
+  {
+    id: "modal_fiscal",
+    label: "Fiscales",
+    icon: "IconInstructor",
+    colorClass: "btn-error border-error shadow-error/20 hover:shadow-error/40",
   }
 ];
