@@ -7,6 +7,7 @@ export interface Button {
   firstExample: string;
   secondInput: string;
   secondExample: string;
+  placeholder: string;
 }
 
 export const ACTIONS: Button[] = [
@@ -19,6 +20,7 @@ export const ACTIONS: Button[] = [
     firstExample:"Ejemplo: 1ª FS Chanchamayo",
     secondInput:"Ingrese el nombre completo de la procedencia",
     secondExample:"Ejemplo: Primera Fiscalía Superior de Chanchamayo",
+    placeholder:"Escribe el nombre corto de la procedencia aquí...",
   },
   {
     id: "modal_instructor",
@@ -29,6 +31,7 @@ export const ACTIONS: Button[] = [
     firstExample:"Ejemplo: SANTILLAN ROJAS Edgard Paul",
     secondInput:"Ingrese el grado del instructor",
     secondExample:"Ejemplo: TNTE, SS, SB",
+    placeholder:"Escribe el nombre del instructor aquí...",
   },
   {
     id: "modal_fiscal",
@@ -39,5 +42,6 @@ export const ACTIONS: Button[] = [
     firstExample:"Ejemplo: Janeth ALMEYDA ESCOBAR",
     secondInput:"Ingrese el genero del fiscal",
     secondExample:"Ejemplo: Femenino o Masculino",
+    placeholder:"Escribe el nombre del fiscal aquí...",
   }
 ];
