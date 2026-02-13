@@ -208,11 +208,11 @@ export default async function seed() {
   await db.insert(Grade).values([
     {
       shortNameGrade: "MAY",
-      nameGrade: "MAYOR",
+      nameGrade: "Mayor",
     },
     {
       shortNameGrade: "TNTE",
-      nameGrade: "TENENTE",
+      nameGrade: "Teniente",
     },
     {
       shortNameGrade: "SS",
