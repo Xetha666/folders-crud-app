@@ -1,17 +1,23 @@
 ---
 import Carpet from "public/svg/carpet.svg";
-import Instructor from "public/svg/instructor.svg";
+import InstructorIcon from "public/svg/instructor.svg";
 import Procedencia from "public/svg/procedencia.svg";
 import Modal from "@/components/Modal.astro";
 import AddIcon from "public/svg/add-icon.svg";
+import ViewIcon from "public/svg/eye-visibility.svg";
 import DeleteIcon from "public/svg/delete-icon.svg";
 import { ACTIONS } from "@/data/button";
+import { db,Precedence,Instructor,Grade,Fiscal,eq } from "astro:db";
 
 const iconComponents: Record<string, any> = {
   IconProcedencia: Procedencia,
-  IconInstructor: Instructor,
+  IconInstructor: InstructorIcon,
   IconCarpet: Carpet,
 }
+
+const listPrecedences = await db.select().from(Precedence)
+const listInstructors = await db.select().from(Instructor).innerJoin(Grade, eq(Instructor.idGrade, Grade.idGrade))
+const listFiscals = await db.select().from(Fiscal)
 ---
 
 <div class="flex flex-wrap gap-4 p-4">
@@ -33,12 +39,14 @@ const iconComponents: Record<string, any> = {
 
 {ACTIONS.map(({ id }) => {
   const isProcedencia = id === "modal_procedencia";
-  const actionLabel = isProcedencia ? "Procedencia" : "Instructor";
+  const isInstructor = id === "modal_instructor";
+  const actionLabel = isProcedencia ? "Procedencia" : isInstructor ? "Instructor" : "Fiscal";
+  const pluralActionLabel = isProcedencia ? "Procedencias" : isInstructor ? "Instructores" : "Fiscales";
   return(
-    <Modal id={id}>
+    <Modal id={id} formClass="pt-6">
       <div class="flex flex-col gap-6">
             {/* BOTÓN AGREGAR */}
-            <button class="cursor-pointer group flex flex-col items-center justify-center p-6 rounded-xl border-2 border-success/30 bg-success/5 hover:bg-success/10 hover:border-success transition-all duration-300 gap-3">
+            <button class="cursor-pointer group flex flex-col items-center justify-center p-6 rounded-xl border-2 border-success/30 bg-success/5 hover:bg-success/10 hover:border-success transition-all duration-300 gap-3" data-target={`${id}_add`}>
               <div class="p-3 rounded-full bg-success/20 group-hover:scale-110 transition-transform">
                 <AddIcon class="size-8 text-success"/>
               </div>
@@ -46,11 +54,11 @@ const iconComponents: Record<string, any> = {
             </button>
 
             {/* BOTÓN ELIMINAR */}
-            <button class="group flex flex-col items-center justify-center p-6 rounded-xl border-2 border-error/30 bg-error/5 hover:bg-error/10 hover:border-error transition-all duration-300 gap-3">
+            <button class="cursor-pointer group flex flex-col items-center justify-center p-6 rounded-xl border-2 border-info/30 bg-info/5 hover:bg-info/10 hover:border-info transition-all duration-300 gap-3" data-target={`${id}_view`}>
               <div class="p-3 rounded-full group-hover:scale-110 transition-transform">
-                <DeleteIcon class="size-8 text-error"  />
+                <ViewIcon class="size-8 text-info"  />
               </div>
-              <span class="font-bold uppercase tracking-tighter text-sm text-error">Eliminar {actionLabel}</span>
+              <span class="font-bold uppercase tracking-tighter text-sm text-info">Ver {pluralActionLabel}</span>
             </button>
           </div>
     </Modal>
@@ -74,19 +82,114 @@ const iconComponents: Record<string, any> = {
 
     <button class="group flex flex-col items-center justify-center p-6 rounded-xl border-2 border-error/30 bg-error/5 hover:bg-error/10 hover:border-error transition-all duration-300 gap-3">
       <div class="p-3 rounded-full bg-error/20 group-hover:scale-110 transition-transform">
-        <DeleteIcon class="size-8 text-error" />
+        <ViewIcon class="size-8 text-error" />
       </div>
       <span class="font-bold uppercase tracking-tighter text-sm text-error">Eliminar Carpeta</span>
     </button>
   </div>
 </Modal>
 
+{/* Modales secundarios para Agregar/Eliminar */}
+{ACTIONS.map(({ id }) => {
+  const isProcedencia = id === "modal_procedencia";
+  const isInstructor = id === "modal_instructor";
+  const actionLabel = isProcedencia ? "Procedencia" : isInstructor ? "Instructor" : "Fiscal";
+  const pluralActionLabel = isProcedencia ? "Procedencias" : isInstructor ? "Instructores" : "Fiscales";
+  
+  return (
+    <>
+      {/* Modal para Agregar */}
+      <Modal id={`${id}_add`}>
+        <h2 class="text-2xl font-bold text-success">Agregar {actionLabel}</h2>
+        <form class="flex flex-col">
+          <p class="text-gray-400 text-sm">Ingresa tu {actionLabel.toLowerCase()} que deseas agregar.</p>
+          
+          <div class="flex flex-col">
+            <label for={`new_short_${actionLabel.toLowerCase()}`} class="text-gray-400 text-sm mt-4">Nombre corto</label>
+            <input 
+              type="text" 
+              name={`new_short_${actionLabel.toLowerCase()}`}
+              id={`new_short_${actionLabel.toLowerCase()}`}
+              class="input input-bordered input-lg w-full bg-tactical-dark/50 border-success/30 focus:border-success text-white text-base" 
+              placeholder={`Escribe el nombre corto de ${actionLabel.toLowerCase()} aquí...`}
+              required
+            />
+            <label for={`new_${actionLabel.toLowerCase()}`} class="text-gray-400 text-sm mt-2">Nombre completo</label>
+            <input 
+              type="text" 
+              name={`new_${actionLabel.toLowerCase()}`}
+              id={`new_${actionLabel.toLowerCase()}`}
+              class="input input-bordered input-lg w-full bg-tactical-dark/50 border-success/30 focus:border-success text-white text-base" 
+              placeholder={`Escribe el ${actionLabel.toLowerCase()} aquí...`}
+              required
+            />
+          </div>
+
+          <div class="flex gap-3 justify-end mt-4">
+            <button type="button" class="btn btn-ghost text-gray-400" onclick="this.closest('dialog').close()">
+              Cancelar
+            </button>
+            <button type="submit" class="btn btn-success">
+              <AddIcon class="size-4" />
+              Agregar
+            </button>
+          </div>
+        </form>
+      </Modal>
+
+      {/* Modal de Listados */}
+      <Modal id={`${id}_view`}>
+        <h2 class="text-2xl font-bold text-info">Listado de {pluralActionLabel}</h2>
+        <form class="flex flex-col gap-6">
+          <div class="form-control">
+            {isProcedencia ? listPrecedences.map((precedence) => (
+                  <div class="flex items-center justify-between p-2">
+                    <span class="flex flex-col">
+                      <p>{precedence.namePrecedence}</p>
+                      <p class="text-xs text-gray-400 text-left max-w-xs">{precedence.realNamePrecedence}</p>
+                    </span>
+                    <button type="button" class="btn btn-error btn-sm">
+                      <DeleteIcon class="size-4" />                  
+                    </button>
+                  </div>
+                ))
+              : isInstructor ? listInstructors.map((instructor) => (
+                  <div class="flex items-center justify-between p-2">
+                    <span class="flex flex-col">
+                      <p>{instructor.Grade.shortNameGrade}. PNP {instructor.Instructor.nameInstructor}</p>
+                      <p class="text-xs text-gray-400 text-left max-w-xs">{instructor.Grade.nameGrade}</p>
+                    </span>
+                    <button type="button" class="btn btn-error btn-sm">
+                      <DeleteIcon class="size-4" />                  
+                    </button>
+                  </div>
+                ))
+              : listFiscals.map((fiscal) => (
+                  <div class="flex items-center justify-between p-2">
+                    <span class="flex flex-col">
+                      <p>{fiscal.nameFiscal}</p>
+                      <p class="text-xs text-gray-400 text-left max-w-xs">{fiscal.genreFiscal}</p>
+                    </span>
+                    <button type="button" class="btn btn-error btn-sm">
+                      <DeleteIcon class="size-4" />                  
+                    </button>
+                  </div>
+                ))
+            }
+          </div>
+        </form>
+      </Modal>
+    </>
+  );
+})}
+
 <script>
   const setupModals = () => {
-    const modalButtons = document.querySelectorAll('.btn[data-target]');
+    const modalButtons = document.querySelectorAll('[data-target]');
 
     modalButtons.forEach(button => {
-      button.addEventListener('click', () => {
+      button.addEventListener('click', (event) => {
+        event.preventDefault();
         const targetId = button.getAttribute('data-target');
         if (!targetId) return;
         const modal = document.getElementById(targetId) as HTMLDialogElement;
