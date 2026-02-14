@@ -287,183 +287,183 @@ export default async function seed() {
     },
     {
       nameInstructor: "PORRAS UNTIVEROS Edwin Juan",
-      idGrade: 8,
+      idGrade: 9,
     },
     {
       nameInstructor: "RICCE CHAUPIS Evert Zenón",
-      idGrade: 8,
+      idGrade: 9,
     },
     {
       nameInstructor: "CARRILLO SIMEON Rudy Antonio",
-      idGrade: 9,
+      idGrade: 10,
     },
     {
       nameInstructor: "ALMONACID CORIS Agamenón Washburne",
-      idGrade: 9,
+      idGrade: 10,
     },
     {
       nameInstructor: "ENCINA MENDOZA Lisbeth Milagros",
-      idGrade: 9,
+      idGrade: 10,
     },
     {
       nameInstructor: "FERNANDEZ SOSA Misael Aquilio",
-      idGrade: 10,
+      idGrade: 11,
     },
     {
       nameInstructor: "ARAUJO QUISQUICHE Huber",
-      idGrade: 10,
+      idGrade: 11,
     },
     {
       nameInstructor: "ZEVALLOS MARTINEZ Sheyla Gerssi",
-      idGrade: 10,
+      idGrade: 11,
     },
     {
       nameInstructor: "LLOCCLLA GODOY Liz Isabel",
-      idGrade: 10,
+      idGrade: 11,
     },
     {
       nameInstructor: "CUYUTUPA ROMERO Walter Jesús",
-      idGrade: 10,
+      idGrade: 11,
     },
     {
       nameInstructor: "GUEVARA GUEVARA Huber",
-      idGrade: 10,
+      idGrade: 11,
     },
     {
       nameInstructor: "PIÑAS CERRÓN Yojan Brandon",
-      idGrade: 10,
+      idGrade: 11,
     },
     {
       nameInstructor: "RUPAYLLA GUILLEN Joel",
-      idGrade: 10,
+      idGrade: 11,
     },
     {
       nameInstructor: "COTARATE SALAZAR Julio César",
-      idGrade: 11,
+      idGrade: 12,
     },
     {
       nameInstructor: "VILLEGAS CORDOVA Cristian Davis",
-      idGrade: 11,
+      idGrade: 12,
     },
     {
       nameInstructor: "ACUÑA BARRETO Rocky Jimmy",
-      idGrade: 11,
+      idGrade: 12,
     },
     {
       nameInstructor: "VILCHEZ MERINO Roberto Kevin",
-      idGrade: 11,
+      idGrade: 12,
     },
     {
       nameInstructor: "HUAMAN CCASANI Gabriel Arturo",
-      idGrade: 11,
+      idGrade: 12,
     },
     {
       nameInstructor: "IZURRAGA LAZARO Luis Darío",
-      idGrade: 11,
+      idGrade: 12,
     },
     {
       nameInstructor: "LARA LEÓN Erick Anthony",
-      idGrade: 11,
+      idGrade: 12,
     },
     {
       nameInstructor: "RAMOS MALLMA Geraldo Bryan",
-      idGrade: 11,
+      idGrade: 12,
     },
     {
       nameInstructor: "PACHECO PAREDES Jhosep Kenni",
-      idGrade: 11,
+      idGrade: 12,
     },
     {
       nameInstructor: "MALLMA HUAMAN Frank Nelson",
-      idGrade: 11,
+      idGrade: 12,
     },
     {
       nameInstructor: "CHOQQUE CASAS Anderson Laureano",
-      idGrade: 11,
+      idGrade: 12,
     },
     {
       nameInstructor: "VELIZ MATOS Jhon Luis",
-      idGrade: 11,
+      idGrade: 12,
     },
     {
       nameInstructor: "AGUIRRE URETA Ivan",
-      idGrade: 11,
+      idGrade: 12,
     },
     {
       nameInstructor: "MAMANI UCHARICO Alex",
-      idGrade: 12,
+      idGrade: 13,
     },
     {
       nameInstructor: "RUESTA TARDILLO Ademihr Junior",
-      idGrade: 12,
+      idGrade: 13,
     },
     {
       nameInstructor: "HUAMAN ASTO Edison Manuel",
-      idGrade: 12,
+      idGrade: 13,
     },
     {
       nameInstructor: "HUAMAN ROCA Jhon Jhonatan",
-      idGrade: 12,
+      idGrade: 13,
     },
     {
       nameInstructor: "VELASCO ROJAS Eduardo Paul",
-      idGrade: 12,
+      idGrade: 13,
     },
     {
       nameInstructor: "PEREZ AGUIRRE Abel Samuel",
-      idGrade: 12,
+      idGrade: 13,
     },
     {
       nameInstructor: "PARIACHI MARQUEZ Frank Melvin",
-      idGrade: 12,
+      idGrade: 13,
     },
     {
       nameInstructor: "GALVAN INOCENBTE Aidan Yack",
-      idGrade: 12,
+      idGrade: 13,
     },
     {
       nameInstructor: "TUNQUI RAMOS Nilton Angelo",
-      idGrade: 12,
+      idGrade: 13,
     },
     {
       nameInstructor: "CUADROS PORRAS Kenyi Lisandro",
-      idGrade: 12,
+      idGrade: 13,
     },
     {
       nameInstructor: "FERRUA BENDEZU Jhojan",
-      idGrade: 12,
+      idGrade: 13,
     },
     {
       nameInstructor: "SIERRA QUISPE Levy Dan",
-      idGrade: 12,
+      idGrade: 13,
     },
     {
       nameInstructor: "ZARAVIA SALAZAR Jhader Josep",
-      idGrade: 12,
+      idGrade: 13,
     },
     {
       nameInstructor: "DURAN MEZA Johan Anderson",
-      idGrade: 12,
+      idGrade: 13,
     },
     {
       nameInstructor: "SOTO PALOMINO John Erick",
-      idGrade: 12,
+      idGrade: 13,
     },
     {
       nameInstructor: "BUSTILLOS CARDENAS Elkin Sebastian",
-      idGrade: 12,
+      idGrade: 13,
     },
     {
       nameInstructor: "MELENDEZ DAVIRAN Jose Ernesto",
-      idGrade: 12,
+      idGrade: 13,
     },
     {
       nameInstructor: "YUPANQUI BACA Andy Edgar",
-      idGrade: 12,
+      idGrade: 13,
     },
     {
       nameInstructor: "LOVERA BENITO Eduardo Elias",
-      idGrade: 12,
+      idGrade: 13,
     },
   ]);
 
