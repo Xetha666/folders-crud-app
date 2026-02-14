@@ -7,12 +7,16 @@ interface ImportMetaEnv {
 interface ImportMeta {
   readonly env: ImportMetaEnv;
 }
-interface UserSession {
-  username: string;
-  name: string;
-}
 
 declare namespace App {
+  type role = "user" | "admin" | "moderator";
+  
+  interface UserSession {
+    username: string;
+    name: string;
+    role: role;
+  }
+  
   interface Locals {
     user?: UserSession;
   }
