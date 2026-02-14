@@ -6,6 +6,7 @@ import Modal from "@/components/Modal.astro";
 import AddIcon from "public/svg/add-icon.svg";
 import ViewIcon from "public/svg/eye-visibility.svg";
 import DeleteIcon from "public/svg/delete-icon.svg";
+import FormAddCarpet from "@/components/FormAddCarpet.astro";
 import { ACTIONS } from "@/data/button";
 import { db,Precedence,Instructor,Grade,Fiscal,eq } from "astro:db";
 
@@ -49,7 +50,7 @@ const listGenre = [{name: "Masculino"}, {name: "Femenino"}]
   )})}
 
   <!-- Button Agregar Carpeta -->
-  <button class="btn text-white shadow-lg transition-all duration-300 btn-warning border-warning shadow-warning/20 hover:shadow-warning/40" data-target="modal_carpet">
+  <button class="btn text-white shadow-lg transition-all duration-300 btn-success border-success shadow-success/20 hover:shadow-success/40" data-target="modal_carpet">
   <Carpet class="size-5" />
       Agregar Carpetas
   </button>
@@ -84,27 +85,8 @@ const listGenre = [{name: "Masculino"}, {name: "Femenino"}]
 })}
 
 <!--Agregar Carpeta / Formulario -->
-<Modal id="modal_carpet">
-  <div class="flex flex-col gap-6">
-    <div class="space-y-1 text-center">
-      <p class="text-gray-400 text-sm text-left">Gestión de carpetas fiscales y policiales.</p>
-      <div class="h-0.5 w-16 bg-police/50"></div>
-    </div>
-
-    <button class="cursor-pointer group flex flex-col items-center justify-center p-6 rounded-xl border-2 border-warning/30 bg-warning/5 hover:bg-warning/10 hover:border-warning transition-all duration-300 gap-3">
-      <div class="p-3 rounded-full bg-warning/20 group-hover:scale-110 transition-transform">
-        <AddIcon class="size-8 text-warning"/>
-      </div>
-      <span class="font-bold uppercase tracking-tighter text-sm text-warning">Nueva Carpeta</span>
-    </button>
-
-    <button class="group flex flex-col items-center justify-center p-6 rounded-xl border-2 border-error/30 bg-error/5 hover:bg-error/10 hover:border-error transition-all duration-300 gap-3">
-      <div class="p-3 rounded-full bg-error/20 group-hover:scale-110 transition-transform">
-        <ViewIcon class="size-8 text-error" />
-      </div>
-      <span class="font-bold uppercase tracking-tighter text-sm text-error">Eliminar Carpeta</span>
-    </button>
-  </div>
+<Modal id="modal_carpet" className="max-w-2xl">
+  <FormAddCarpet />
 </Modal>
 
 {/* Modales secundarios para Agregar/Eliminar */}
