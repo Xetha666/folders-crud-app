@@ -3,22 +3,45 @@ export interface Button {
   label: string;
   icon: string;
   colorClass: string;
-  description: string;
+  firstInput: string;
+  firstExample: string;
+  secondInput: string;
+  secondExample: string;
+  placeholder: string;
 }
 
 export const ACTIONS: Button[] = [
   {
     id: "modal_procedencia",
-    label: "Procedencia",
+    label: "Procedencias",
     icon: "IconProcedencia",
     colorClass: "btn-secondary border-secondary shadow-secondary/20 hover:shadow-secondary/40",
-    description: "Formulario para registrar la procedencia..."
+    firstInput:"Ingrese el nombre corto de la procedencia",
+    firstExample:"Ejemplo: 1ª FS Chanchamayo",
+    secondInput:"Ingrese el nombre completo de la procedencia",
+    secondExample:"Ejemplo: Primera Fiscalía Superior de Chanchamayo",
+    placeholder:"Escribe el nombre corto de la procedencia aquí...",
   },
   {
     id: "modal_instructor",
     label: "Instructores",
     icon: "IconInstructor",
     colorClass: "btn-info border-info shadow-info/20 hover:shadow-info/40",
-    description: "Seleccione el oficial a cargo del caso..."
+    firstInput:"Ingrese el nombre del instructor",
+    firstExample:"Ejemplo: SANTILLAN ROJAS Edgard Paul",
+    secondInput:"Ingrese el grado del instructor",
+    secondExample:"Ejemplo: TNTE, SS, SB",
+    placeholder:"Escribe el nombre del instructor aquí...",
+  },
+  {
+    id: "modal_fiscal",
+    label: "Fiscales",
+    icon: "IconInstructor",
+    colorClass: "btn-error border-error shadow-error/20 hover:shadow-error/40",
+    firstInput:"Ingrese el nombre del fiscal",
+    firstExample:"Ejemplo: Janeth ALMEYDA ESCOBAR",
+    secondInput:"Ingrese el genero del fiscal",
+    secondExample:"Ejemplo: Femenino o Masculino",
+    placeholder:"Escribe el nombre del fiscal aquí...",
   }
 ];
