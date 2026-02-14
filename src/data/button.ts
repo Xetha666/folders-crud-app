@@ -13,7 +13,7 @@ export interface Button {
 export const ACTIONS: Button[] = [
   {
     id: "modal_procedencia",
-    label: "Procedencia",
+    label: "Procedencias",
     icon: "IconProcedencia",
     colorClass: "btn-secondary border-secondary shadow-secondary/20 hover:shadow-secondary/40",
     firstInput:"Ingrese el nombre corto de la procedencia",
