@@ -12,6 +12,26 @@ const User = defineTable({
   }
 })
 
+const FolderFiscal = defineTable({
+  columns:{
+    idFolderFiscal:column.number({primaryKey:true}),
+    yearOfCreation:column.number(),
+    dateOfEntry:column.date(),
+    idUser:column.number({references: () => Precedence.columns.idPrecedence}),
+    idOffice:column.number({unique:true,references: () => Office.columns.idOffice}),
+    idPrecedence:column.number({references: () => Precedence.columns.idPrecedence}),
+    idFiscal:column.number({references: () => Fiscal.columns.idFiscal}),
+    idInstructor:column.number({references: () => Instructor.columns.idInstructor})
+  }
+})
+
+const Office = defineTable({
+  columns:{
+    idOffice:column.number({primaryKey:true}),
+    yearOfCreation:column.date()
+  }
+})
+
 const Precedence = defineTable({
   columns:{
     idPrecedence:column.number({primaryKey:true, autoIncrement:true}),
@@ -22,16 +42,9 @@ const Precedence = defineTable({
 
 const Fiscal = defineTable({
   columns:{
-    idFiscal:column.number({primaryKey:true}),
+    idFiscal:column.number({primaryKey:true, autoIncrement:true}),
     nameFiscal:column.text(),
     genreFiscal:column.text()
-  }
-})
-
-const Office = defineTable({
-  columns:{
-    idOffice:column.number({primaryKey:true}),
-    yearOfCreation:column.date()
   }
 })
 
@@ -51,18 +64,7 @@ const Grade = defineTable({
   }
 })
 
-const FolderFiscal = defineTable({
-  columns:{
-    idFolderFiscal:column.number({primaryKey:true}),
-    yearOfCreation:column.number(),
-    dateOfEntry:column.date(),
-    idUser:column.number({references: () => Precedence.columns.idPrecedence}),
-    idOffice:column.number({unique:true,references: () => Office.columns.idOffice}),
-    idPrecedence:column.number({references: () => Precedence.columns.idPrecedence}),
-    idFiscal:column.number({references: () => Fiscal.columns.idFiscal}),
-    idInstructor:column.number({references: () => Instructor.columns.idInstructor})
-  }
-})
+
 
 export default defineDb({
   tables: {User,Precedence,Fiscal,Office,FolderFiscal,Instructor,Grade}
