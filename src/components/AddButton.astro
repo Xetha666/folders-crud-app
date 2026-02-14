@@ -15,15 +15,23 @@ const iconComponents: Record<string, any> = {
   IconCarpet: Carpet,
 }
 
+// Obtener el rol del usuario
+const user = Astro.locals.user;
+const isUserAdmin = user?.role === "admin";
+
+// Solo los admin pueden ver los botones
+const filteredActions = isUserAdmin ? ACTIONS : [];
+
 const listPrecedences = await db.select().from(Precedence)
-const listInstructors = await db.select().from(Instructor).innerJoin(Grade, eq(Instructor.idGrade, Grade.idGrade))
+const listInstructors = await db.select().from(Instructor).
+                        innerJoin(Grade, eq(Instructor.idGrade, Grade.idGrade))
 const listGrades = await db.select().from(Grade)
 const listFiscals = await db.select().from(Fiscal)
 const listGenre = [{name: "Masculino"}, {name: "Femenino"}]
 ---
 
 <div class="flex flex-wrap gap-4 p-4">
-  {ACTIONS.map(({ id, label, icon, colorClass }) => {
+  {filteredActions.map(({ id, label, icon, colorClass }) => {
     const Icon = iconComponents[icon];
     return (
       <button class={`btn text-white shadow-lg transition-all duration-300 ${colorClass}`} data-target={id}>
@@ -39,7 +47,7 @@ const listGenre = [{name: "Masculino"}, {name: "Femenino"}]
   </button>
 </div>
 
-{ACTIONS.map(({ id }) => {
+{filteredActions.map(({ id }) => {
   const isProcedencia = id === "modal_procedencia";
   const isInstructor = id === "modal_instructor";
   const actionLabel = isProcedencia ? "Procedencia" : isInstructor ? "Instructor" : "Fiscal";
@@ -92,7 +100,7 @@ const listGenre = [{name: "Masculino"}, {name: "Femenino"}]
 </Modal>
 
 {/* Modales secundarios para Agregar/Eliminar */}
-{ACTIONS.map(({ id, firstInput, firstExample, secondInput, secondExample, placeholder }) => {
+{filteredActions.map(({ id, firstInput, firstExample, secondInput, secondExample, placeholder }) => {
   const isProcedencia = id === "modal_procedencia";
   const isInstructor = id === "modal_instructor";
   const actionLabel = isProcedencia ? "Procedencia" : isInstructor ? "Instructor" : "Fiscal";
@@ -103,36 +111,38 @@ const listGenre = [{name: "Masculino"}, {name: "Femenino"}]
       {/* Modal para Agregar */}
       <Modal id={`${id}_add`}>
         <h2 class="text-2xl font-bold text-success">Agregar {actionLabel}</h2>
-        <form class="flex flex-col">
+        <form id={`form-add-${actionLabel.toLowerCase()}`} data-type={actionLabel.toLowerCase()} class="flex flex-col">
           
           <div class="flex flex-col">
-            <label for={`new_short_${actionLabel.toLowerCase()}`} class="text-gray-400 text-base font-bold mt-4">{firstInput}</label>
-            <label for={`new_short_${actionLabel.toLowerCase()}`} class="text-gray-400 text-xs">{(firstExample)}</label>
+
+            <label for={`id-${actionLabel.toLowerCase()}`} class="text-gray-400 text-base font-bold mt-4">{firstInput}</label>
+            <label for={`id-${actionLabel.toLowerCase()}`} class="text-gray-400 text-xs">{(firstExample)}</label>
               <input 
                 type="text" 
-                name={`new_short_${actionLabel.toLowerCase()}`}
-                id={`new_short_${actionLabel.toLowerCase()}`}
+                name={`${actionLabel}`}
+                id={`id-${actionLabel.toLowerCase()}`}
                 class="input input-bordered input-lg w-full bg-tactical-dark/50 border-success/30 focus:outline-none text-white text-base mt-2" 
                 placeholder={`${placeholder}`}
                 required
               />
+
             <label for={`new_${actionLabel.toLowerCase()}`} class="text-gray-400 text-base font-bold mt-2">{secondInput}</label>
             <label for={`new_${actionLabel.toLowerCase()}`} class="text-gray-400 text-xs">{(secondExample)}</label>
               {isProcedencia ? (
-                <input type="text" name={`new_${actionLabel.toLowerCase()}`} id={`new_${actionLabel.toLowerCase()}`}class="input input-bordered input-lg w-full bg-tactical-dark/50 border-success/30 focus:outline-none text-white text-base mt-2" 
+                <input type="text" name={`new_${actionLabel.toLowerCase()}`} id={`fullname-${actionLabel.toLowerCase()}`}class="input input-bordered input-lg w-full bg-tactical-dark/50 border-success/30 focus:outline-none text-white text-base mt-2" 
                   placeholder={`Escribe la ${actionLabel.toLowerCase()} aquí...`}
                   required
                 />
                 ) : isInstructor ? (                              
-                    <select name={`new_${actionLabel.toLowerCase()}`} id={`new_${actionLabel.toLowerCase()}`} class="select select-bordered select-lg w-full bg-tactical-dark/50 border-success/30 focus:outline-none text-white/60 text-base mt-2">
-                      <option disabled selected hidden value="" class="text-white/60 bg-tactical-dark">-Seleccione el grado-</option>
+                    <select name={`new_${actionLabel.toLowerCase()}`} id={`grade-${actionLabel.toLowerCase()}`} class="cursor-pointer select select-bordered select-lg w-full bg-tactical-dark/50 border-success/30 focus:outline-none text-white/50 text-base mt-2">
+                      <option disabled selected hidden value="" class="text-white/50 bg-tactical-dark">-Seleccione el grado-</option>
                       {listGrades.map((grade) => (
                         <option value={grade.nameGrade} class="bg-tactical-dark text-white/60">{grade.nameGrade}</option>
                       ))}
                     </select>
                 ) : (
-                  <select name={`new_${actionLabel.toLowerCase()}`} id={`new_${actionLabel.toLowerCase()}`} class="select select-bordered select-lg w-full bg-tactical-dark/50 border-success/30 text-white/60 text-base mt-2 focus:outline-none focus:bg-tactical-dark valid:bg-tactical-dark">     
-                    <option disabled selected hidden value="" class="text-white/60 bg-tactical-dark">-Seleccione el genero-</option>
+                  <select name={`new_${actionLabel.toLowerCase()}`} id={`genre-${actionLabel.toLowerCase()}`} class="select select-bordered select-lg w-full bg-tactical-dark/50 border-success/30 text-white/50 text-base mt-2 focus:outline-none focus:bg-tactical-dark valid:bg-tactical-dark">     
+                    <option disabled selected hidden value="" class="text-white/50 bg-tactical-dark">-Seleccione el genero-</option>
                     {listGenre.map((genre) => (
                       <option value={genre.name} class="bg-tactical-dark text-white/60">{genre.name}</option>
                     ))}
@@ -163,7 +173,7 @@ const listGenre = [{name: "Masculino"}, {name: "Femenino"}]
                       <p>{precedence.namePrecedence}</p>
                       <p class="text-xs text-gray-400 text-left max-w-xs">{precedence.realNamePrecedence}</p>
                     </span>
-                    <button type="button" class="btn btn-error btn-sm">
+                    <button type="button" class="btn btn-error btn-sm delete-btn" data-id={precedence.idPrecedence} data-type="precedencia">
                       <DeleteIcon class="size-4" />                  
                     </button>
                   </div>
@@ -174,22 +184,44 @@ const listGenre = [{name: "Masculino"}, {name: "Femenino"}]
                       <p>{instructor.Grade.shortNameGrade}. PNP {instructor.Instructor.nameInstructor}</p>
                       <p class="text-xs text-gray-400 text-left max-w-xs">{instructor.Grade.nameGrade}</p>
                     </span>
-                    <button type="button" class="btn btn-error btn-sm">
+                    <button type="button" class="btn btn-error btn-sm delete-btn" data-id={instructor.Instructor.idInstructor} data-type="instructor">
                       <DeleteIcon class="size-4" />                  
                     </button>
                   </div>
                 ))
-              : listFiscals.map((fiscal) => (
-                  <div class="flex items-center justify-between p-2">
-                    <span class="flex flex-col">
-                      <p>{fiscal.nameFiscal}</p>
-                      <p class="text-xs text-gray-400 text-left max-w-xs">{fiscal.genreFiscal}</p>
-                    </span>
-                    <button type="button" class="btn btn-error btn-sm">
-                      <DeleteIcon class="size-4" />                  
-                    </button>
+              : (
+                <>
+                  {/* Fiscales Femeninas */}
+                  <div class="mb-2 mt-4">
+                    <h3 class="text-xl font-semibold text-pink-500 mb-2 px-2">Femenino</h3>
+                    {listFiscals.filter(fiscal => fiscal.genreFiscal === "Femenino").map((fiscal) => (
+                      <div class="flex items-center justify-between p-2">
+                        <span class="flex flex-col">
+                          <p>{fiscal.nameFiscal}</p>
+                        </span>
+                        <button type="button" class="btn btn-error btn-sm delete-btn" data-id={fiscal.idFiscal} data-type="fiscal">
+                          <DeleteIcon class="size-4" />                  
+                        </button>
+                      </div>
+                    ))}
                   </div>
-                ))
+
+                  {/* Fiscales Masculinos */}
+                  <div>
+                    <h3 class="text-xl font-semibold text-blue-500 mb-2 px-2">Masculino</h3>
+                    {listFiscals.filter(fiscal => fiscal.genreFiscal === "Masculino").map((fiscal) => (
+                      <div class="flex items-center justify-between p-2">
+                        <span class="flex flex-col">
+                          <p>{fiscal.nameFiscal}</p>
+                        </span>
+                        <button type="button" class="btn btn-error btn-sm">
+                          <DeleteIcon class="size-4" />                  
+                        </button>
+                      </div>
+                    ))}
+                  </div>
+                </>
+              )
             }
           </div>
         </form>
@@ -213,6 +245,145 @@ const listGenre = [{name: "Masculino"}, {name: "Femenino"}]
     });
   };
 
+  // Setup form submission handlers
+  const setupFormHandlers = () => {
+    const forms = document.querySelectorAll('form[id^="form-add-"]') as NodeListOf<HTMLFormElement>;
+    
+    forms.forEach(form => {
+      form.addEventListener('submit', async (event) => {
+        event.preventDefault();
+        
+        const formType = form.getAttribute('data-type');
+        if (!formType) return;
+        
+        let endpoint = '';
+        let payload: Record<string, any> = {};
+        
+        if (formType === 'procedencia') {
+          const shortName = (document.getElementById('id-procedencia') as HTMLInputElement)?.value;
+          const fullName = (document.getElementById('fullname-procedencia') as HTMLInputElement)?.value;
+          
+          endpoint = '/api/precedence';
+          payload = {
+            namePrecedence: shortName,
+            realNamePrecedence: fullName
+          };
+        } 
+        else if (formType === 'instructor') {
+          const name = (document.getElementById('id-instructor') as HTMLInputElement)?.value;
+          const grade = (document.getElementById('grade-instructor') as HTMLSelectElement)?.value;
+          
+          endpoint = '/api/instructor';
+          payload = {
+            nameInstructor: name,
+            nameGrade: grade
+          };
+        } 
+        else if (formType === 'fiscal') {
+          const name = (document.getElementById('id-fiscal') as HTMLInputElement)?.value;
+          const genre = (document.getElementById('genre-fiscal') as HTMLSelectElement)?.value;
+          
+          endpoint = '/api/fiscal';
+          payload = {
+            nameFiscal: name,
+            genreFiscal: genre
+          };
+        }
+        
+        try {
+          const response = await fetch(endpoint, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(payload)
+          });
+          
+          console.log('Response Status:', response.status);
+          console.log('Response OK:', response.ok);
+          
+          const data = await response.json();
+          console.log('Response Data:', data);
+          
+          if (response.ok) {
+            alert(data.message || '¡Agregado exitosamente!');
+            form.reset();
+            // Close modal
+            const modal = form.closest('dialog') as HTMLDialogElement;
+            modal?.close();
+            // Reload page to show new data
+            window.location.reload();
+          } else {
+            console.error('Error Response:', data);
+            alert(data.error || 'Error al agregar');
+          }
+        } catch (error) {
+         alert('Error de conexión con el servidor');
+        }
+      });
+    });
+  };
+
+  const setupDeleteHandlers = () => {
+    const deleteButtons = document.querySelectorAll('.delete-btn') as NodeListOf<HTMLButtonElement>;
+    
+    deleteButtons.forEach(button => {
+      button.addEventListener('click', async (event) => {
+        event.preventDefault();
+        
+        const id = button.getAttribute('data-id');
+        const type = button.getAttribute('data-type');
+        
+        if (!id || !type) return;
+        
+        const confirmed = confirm(`¿Estás seguro de que quieres eliminar este ${type}?`);
+        if (!confirmed) return;
+        
+        let endpoint = '';
+        let payload: Record<string, any> = {};
+        
+        if (type === 'precedencia') {
+          endpoint = '/api/precedence';
+          payload = { idPrecedence: parseInt(id) };
+        } 
+        else if (type === 'instructor') {
+          endpoint = '/api/instructor';
+          payload = { idInstructor: parseInt(id) };
+        } 
+        else if (type === 'fiscal') {
+          endpoint = '/api/fiscal';
+          payload = { idFiscal: parseInt(id) };
+        }
+        
+        try {
+          const response = await fetch(endpoint, {
+            method: 'DELETE',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(payload)
+          });
+          
+          console.log('Response Status:', response.status);
+          console.log('Response OK:', response.ok);
+          
+          const data = await response.json();
+          console.log('Response Data:', data);
+          
+          if (response.ok) {
+            alert(data.message || '¡Eliminado exitosamente!');
+            window.location.reload();
+          } else {
+            console.error('Error Response:', data);
+            alert(data.error || 'Error al eliminar');
+          }
+        } catch (error) {
+         alert('Error de conexión con el servidor');
+        }
+      });
+    });
+  };
+
   window.addEventListener("keydown",(event) => {
       const activeModal = document.querySelector('dialog[open]') as HTMLDialogElement;
       
@@ -232,4 +403,6 @@ const listGenre = [{name: "Masculino"}, {name: "Femenino"}]
   );
 
   setupModals();
+  setupFormHandlers();
+  setupDeleteHandlers();
 </script>
