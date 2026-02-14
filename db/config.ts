@@ -23,16 +23,16 @@ const FolderFiscal = defineTable({
     idPrecedence:column.number({references: () => Precedence.columns.idPrecedence}),
     idFiscal:column.number({references: () => Fiscal.columns.idFiscal}),
     idInstructor:column.number({references: () => Instructor.columns.idInstructor}),
-    idGenericCrime: column.number({ references: () => GenericCrime.columns.idGenericCrime }),//--- 3 new Foreign keys added
-    idSpecificCrime: column.number({ references: () => SpecificCrime.columns.idSpecificCrime }),//---
-    idMode: column.number({ references: () => Mode.columns.idMode }),//---
+    idGenericCrime: column.number({ references: () => GenericCrime.columns.idGenericCrime }),
+    idSpecificCrime: column.number({ references: () => SpecificCrime.columns.idSpecificCrime }),
+    idMode: column.number({ references: () => Mode.columns.idMode }),
 
   }
 })
 
 const Office = defineTable({
   columns:{
-    idOffice:column.number({primaryKey:true}),//This primary key will be entered by the user, that's why it's not auto-incrementing
+    idOffice:column.number({primaryKey:true}),//This primary key will be entered by the user
     yearOfCreation:column.date()
   }
 })
@@ -69,21 +69,21 @@ const Grade = defineTable({
   }
 })
 
-const GenericCrime = defineTable({ // Nota: New Table
+const GenericCrime = defineTable({
   columns: {
     idGenericCrime: column.number({ primaryKey: true }),
     genericName: column.text()
   }
 })
 
-const SpecificCrime = defineTable({ // Nota: New Table
+const SpecificCrime = defineTable({
   columns: {
     idSpecificCrime: column.number({ primaryKey: true }),
     genericName: column.text()
   }
 })
 
-const Mode = defineTable({ // Nota: New Table
+const Mode = defineTable({
   columns: {
     idMode: column.number({ primaryKey: true }),
     genericName: column.text()
@@ -91,5 +91,5 @@ const Mode = defineTable({ // Nota: New Table
 })
 
 export default defineDb({
-  tables: {User,Precedence,Fiscal,Office,FolderFiscal,Instructor,Grade,GenericCrime,SpecificCrime,Mode}// Nota: 3 new imports are added
+  tables: {User,Precedence,Fiscal,Office,FolderFiscal,Instructor,Grade,GenericCrime,SpecificCrime,Mode}
 });
