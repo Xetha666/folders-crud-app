@@ -1,6 +1,6 @@
 
-type role = "user" | "admin" | "moderator";
-type status = "active" | "inactive";
+export type role = "user" | "admin" | "moderator";
+export type status = "active" | "inactive";
 
 export interface User {
     id: string;
