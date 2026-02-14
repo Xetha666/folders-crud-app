@@ -142,17 +142,17 @@ const listGenre = [{name: "Masculino"}, {name: "Femenino"}]
                   required
                 />
                 ) : isInstructor ? (                              
-                    <select name={`new_${actionLabel.toLowerCase()}`} id={`grade-${actionLabel.toLowerCase()}`} class="cursor-pointer select select-bordered select-lg w-full bg-tactical-dark/50 border-success/30 focus:outline-none text-white/50 text-base mt-2">
-                      <option disabled selected hidden value="" class="text-white/50 bg-tactical-dark">-Seleccione el grado-</option>
+                    <select name={`new_${actionLabel.toLowerCase()}`} id={`grade-${actionLabel.toLowerCase()}`} class="cursor-pointer select select-bordered select-lg w-full bg-tactical-dark/50 border-success/30 focus:outline-none invalid:text-white/50 valid:text-white text-base mt-2" required>
+                      <option disabled selected hidden value="">-Seleccione el grado-</option>
                       {listGrades.map((grade) => (
-                        <option value={grade.nameGrade} class="bg-tactical-dark text-white/60">{grade.nameGrade}</option>
+                        <option value={grade.nameGrade} class="bg-tactical-dark text-white">{grade.nameGrade}</option>
                       ))}
                     </select>
                 ) : (
-                  <select name={`new_${actionLabel.toLowerCase()}`} id={`genre-${actionLabel.toLowerCase()}`} class="select select-bordered select-lg w-full bg-tactical-dark/50 border-success/30 text-white/50 text-base mt-2 focus:outline-none focus:bg-tactical-dark valid:bg-tactical-dark">     
-                    <option disabled selected hidden value="" class="text-white/50 bg-tactical-dark">-Seleccione el genero-</option>
+                  <select name={`new_${actionLabel.toLowerCase()}`} id={`genre-${actionLabel.toLowerCase()}`} class="cursor-pointer select select-bordered select-lg w-full bg-tactical-dark/50 border-success/30 focus:outline-none invalid:text-white/50 valid:text-white text-base mt-2" required>     
+                    <option disabled selected hidden value="">-Seleccione el genero-</option>
                     {listGenre.map((genre) => (
-                      <option value={genre.name} class="bg-tactical-dark text-white/60">{genre.name}</option>
+                      <option value={genre.name} class="bg-tactical-dark text-white">{genre.name}</option>
                     ))}
                   </select>
                 )}
