@@ -23,8 +23,16 @@ const isUserAdmin = user?.role === "admin";
 const filteredActions = isUserAdmin ? ACTIONS : [];
 
 const listPrecedences = await db.select().from(Precedence)
-const listInstructors = await db.select().from(Instructor).
-                        innerJoin(Grade, eq(Instructor.idGrade, Grade.idGrade))
+const listInstructors = (await db.select().from(Instructor).innerJoin(Grade, eq(Instructor.idGrade, Grade.idGrade))).sort((a, b) => {
+                          // Primero ordenar por ID del grado
+                          if (a.Grade.idGrade !== b.Grade.idGrade) {
+                            return a.Grade.idGrade - b.Grade.idGrade;
+                          }
+                          // Luego ordenar alfabéticamente por el primer apellido (primera palabra del nombre)
+                          const apellidoA = a.Instructor.nameInstructor.split(' ')[0].toLowerCase();
+                          const apellidoB = b.Instructor.nameInstructor.split(' ')[0].toLowerCase();
+                          return apellidoA.localeCompare(apellidoB);
+                        })
 const listGrades = await db.select().from(Grade)
 const listFiscals = await db.select().from(Fiscal)
 const listGenre = [{name: "Masculino"}, {name: "Femenino"}]
@@ -245,7 +253,6 @@ const listGenre = [{name: "Masculino"}, {name: "Femenino"}]
     });
   };
 
-  // Setup form submission handlers
   const setupFormHandlers = () => {
     const forms = document.querySelectorAll('form[id^="form-add-"]') as NodeListOf<HTMLFormElement>;
     
