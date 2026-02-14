@@ -17,12 +17,13 @@ export const onRequest = defineMiddleware(async (context, next) => {
 
     try {
       const { payload } = await jwtVerify(token, SECRET);
-      
-      // Inyectamos los datos para que /folders pueda usarlos
+
       context.locals.user = {
         username: payload.username,
         name: payload.name,
-      } as UserSession;
+        role: payload.role,
+      }as App.UserSession;
+
     } catch (e) {
       // Si el token falló (por ejemplo, si alguien intentó editar la cookie)
       context.cookies.delete("auth_token", { path: "/" });
