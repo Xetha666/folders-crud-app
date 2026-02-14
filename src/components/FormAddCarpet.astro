@@ -1,0 +1,262 @@
+---
+import AddIcon from "public/svg/add-icon.svg";
+import { db, Precedence, Instructor, Grade, Fiscal, eq } from "astro:db";
+
+const listPrecedences = await db.select().from(Precedence);
+const listInstructors = (await db.select().from(Instructor).innerJoin(Grade, eq(Instructor.idGrade, Grade.idGrade)))
+const listFiscals = await db.select().from(Fiscal);
+---
+
+<h2 class="text-2xl font-bold text-warning mb-4">Nueva Carpeta Fiscal/Policial</h2>
+
+<form id="form-add-carpet" class="flex flex-col gap-6 max-h-[70vh] overflow-y-auto pr-2">
+  
+  <!-- Información Básica -->
+  <div class="space-y-4">
+    <h3 class="text-lg font-semibold text-police border-b border-police/30">Información Básica</h3>
+    <div class="grid grid-cols-2 gap-4">
+      <div>
+        <label class="text-gray-400 text-sm">Fecha de Ingreso</label>
+        <input type="date" name="fechaIngreso" class="input input-sm w-full bg-tactical-dark/50 border-police/30 focus:outline-none focus:border-2 focus:border-police text-white/50 valid:text-white mt-1 ml-1" required />
+      </div>
+    </div>
+  </div>
+
+  <!-- Oficio -->
+  <div class="space-y-4">
+    <h3 class="text-lg font-semibold text-police border-b border-police/30">Oficio</h3>
+    
+    <div class="grid grid-cols-2 gap-4">
+      <div>
+        <label class="text-gray-400 text-sm">Nº de Oficio</label>
+        <input type="text" name="numOficio" placeholder="Nº" class="input input-sm w-full bg-tactical-dark/50 border-police/30 focus:outline-none focus:border-2 focus:border-police text-white mt-1" />
+      </div>
+      <div>
+        <label class="text-gray-400 text-sm">Fecha de Oficio</label>
+        <input type="date" name="fechaOficio" class="input input-sm w-full bg-tactical-dark/50 border-police/30 focus:outline-none focus:border-2 focus:border-police text-white/50 valid:text-white mt-1" required />
+      </div>
+    </div>
+  </div>
+
+  <!-- Carpeta Fiscal y/o Caso -->
+  <div class="space-y-4">
+    <h3 class="text-lg font-semibold text-police border-b border-police/30">Carpeta Fiscal y/o Caso</h3>
+    
+    <div class="grid grid-cols-3 gap-4">
+      <div>
+        <label class="text-gray-400 text-sm">Nº de Carpeta</label>
+        <input type="text" name="numCarpeta" placeholder="Nº" class="input input-sm w-full bg-tactical-dark/50 border-police/30 focus:outline-none focus:border-2 focus:border-police text-white mt-1" required />
+      </div>
+      <div>
+        <label class="text-gray-400 text-sm">Procedencia</label>
+        <select name="procedencia" class="cursor-pointer select select-sm w-full bg-tactical-dark border-police/30 outline-police shadow-none focus:outline-2 focus:outline-police focus:ring-0 active:outline-2 active:outline-police invalid:text-white/50 valid:text-white mt-1" required>
+          <option disabled selected hidden value="">-Seleccione-</option>
+          {listPrecedences.map((p) => (
+            <option value={p.namePrecedence} class="bg-tactical-dark text-white">{p.namePrecedence}</option>
+          ))}
+        </select>
+      </div>
+      <div>
+        <label class="text-gray-400 text-sm">Fiscal a Cargo</label>
+        <select name="fiscalCargo" class="cursor-pointer select select-sm w-full bg-tactical-dark border-police/30 outline-police shadow-none focus:outline-2 focus:outline-police focus:ring-0 active:outline-2 active:outline-police invalid:text-white/50 valid:text-white mt-1" required>
+          <option disabled selected hidden value="">-Seleccione-</option>
+          {listFiscals.map((f) => (
+            <option value={f.nameFiscal} class="bg-tactical-dark text-white">{f.nameFiscal}</option>
+          ))}
+        </select>
+      </div>
+    </div>
+  </div>
+
+  <!-- Contenido del Documento -->
+  <div class="space-y-4">
+    <h3 class="text-lg font-semibold text-police border-b border-police/30">Contenido del Documento</h3>
+    
+    <div class="grid grid-cols-2 gap-4">
+      <div>
+        <label class="text-gray-400 text-sm">Delito Genérico</label>
+        <input type="text" name="delitoGenerico" placeholder="Tipo de delito" class="input input-sm w-full bg-tactical-dark/50 border-police/30 focus:outline-none focus:border-2 focus:border-police text-white mt-1" />
+      </div>
+      <div>
+        <label class="text-gray-400 text-sm">Delito Específico</label>
+        <input type="text" name="delitoEspecifico" placeholder="Especificación" class="input input-sm w-full bg-tactical-dark/50 border-police/30 focus:outline-none focus:border-2 focus:border-police text-white mt-1" />
+      </div>
+      <div>
+        <label class="text-gray-400 text-sm">Modalidad</label>
+        <input type="text" name="modalidad" placeholder="Modalidad del delito" class="input input-sm w-full bg-tactical-dark/50 border-police/30 focus:outline-none focus:border-2 focus:border-police text-white mt-1" />
+      </div>
+      <div>
+        <label class="text-gray-400 text-sm">Investigado</label>
+        <input type="text" name="investigado" placeholder="Nombre del investigado" class="input input-sm w-full bg-tactical-dark/50 border-police/30 focus:outline-none focus:border-2 focus:border-police text-white mt-1" />
+      </div>
+      <div>
+        <label class="text-gray-400 text-sm">Agraviado</label>
+        <input type="text" name="agraviado" placeholder="Nombre del agraviado" class="input input-sm w-full bg-tactical-dark/50 border-police/30 focus:outline-none focus:border-2 focus:border-police text-white mt-1" />
+      </div>
+      <div>
+        <label class="text-gray-400 text-sm">Plazo Otorgado (Días)</label>
+        <input type="number" name="plazoOtorgado" placeholder="Días" class="input input-sm w-full bg-tactical-dark/50 border-police/30 focus:outline-none focus:border-2 focus:border-police text-white mt-1" />
+      </div>
+    </div>
+    
+    <div>
+      <label class="text-gray-400 text-sm">Descripción</label>
+      <textarea name="descripcion" placeholder="Descripción detallada del caso..." rows="3" class="textarea textarea-sm w-full bg-tactical-dark/50 border-police/30 focus:outline-none focus:border-2 focus:border-police text-white mt-1"></textarea>
+    </div>
+  </div>
+
+  <!-- Ampliación de Carpeta Fiscal -->
+  <div class="space-y-4">
+    <h3 class="text-lg font-semibold text-police border-b border-police/30">Ampliación de Carpeta Fiscal</h3>
+    
+    <div class="grid grid-cols-3 gap-4">
+      <div>
+        <label class="text-gray-400 text-sm">Oficio</label>
+        <input type="text" name="ampliacionOficio" placeholder="Nº de oficio" class="input input-sm w-full bg-tactical-dark/50 border-police/30 focus:outline-none focus:border-2 focus:border-police text-white mt-1" />
+      </div>
+      <div>
+        <label class="text-gray-400 text-sm">N° Disposición Fiscal</label>
+        <input type="text" name="disposicionFiscal" placeholder="Nº" class="input input-sm w-full bg-tactical-dark/50 border-police/30 focus:outline-none focus:border-2 focus:border-police text-white mt-1" />
+      </div>
+      <div>
+        <label class="text-gray-400 text-sm">Plazo</label>
+        <input type="number" name="ampliacionPlazo" placeholder="Plazo" class="input input-sm w-full bg-tactical-dark/50 border-police/30 focus:outline-none focus:border-2 focus:border-police text-white mt-1" />
+      </div>
+    </div>
+  </div>
+
+  <!-- Decreto -->
+  <div class="space-y-4">
+    <h3 class="text-lg font-semibold text-police border-b border-police/30">Decreto</h3>
+    
+    <div class="grid grid-cols-2 gap-4">
+      <div>
+        <label class="text-gray-400 text-sm">Fecha de Decreto</label>
+        <input type="date" name="fechaDecreto" class="input input-sm w-full bg-tactical-dark/50 border-police/30 focus:outline-none focus:border-2 focus:border-police text-white/50 valid:text-white mt-1" required/>
+      </div>
+    </div>
+  </div>
+
+  <!-- Instructor a Cargo -->
+  <div class="space-y-4">
+    <h3 class="text-lg font-semibold text-police border-b border-police/30">Instructor a Cargo</h3>
+    
+    <div>
+      <label class="text-gray-400 text-sm">Instructor</label>
+      <select name="instructorCargo" class="cursor-pointer select select-sm w-full bg-tactical-dark border-police/30 outline-police shadow-none focus:outline-2 focus:outline-police focus:ring-0 active:outline-2 active:outline-police invalid:text-white/50 valid:text-white mt-1 ml-1" required>
+        <option disabled selected hidden value="">-Seleccione-</option>
+        {listInstructors.map((i) => (
+          <option value={i.Instructor.nameInstructor} class="bg-tactical-dark text-white">{i.Grade.shortNameGrade}. PNP {i.Instructor.nameInstructor}</option>
+        ))}
+      </select>
+    </div>
+  </div>
+
+  <!-- Vencimiento de Carpeta -->
+  <div class="space-y-4">
+    <h3 class="text-lg font-semibold text-police border-b border-police/30">Vencimiento de Carpeta Fiscal</h3>
+    
+    <div class="grid grid-cols-3 gap-4">
+      <div>
+        <label class="text-gray-400 text-sm text-nowrap">Fecha de Vencimiento</label>
+        <input type="date" name="fechaVencimiento" class="input input-sm w-full bg-tactical-dark/50 border-police/30 focus:outline-none focus:border-2 focus:border-police text-white/50 valid:text-white mt-1" required />
+      </div>
+        
+      <div>
+        <label class="text-gray-400 text-sm">Días</label>
+        <input type="number" name="diasVencimiento" placeholder="Días" class="input input-sm w-full bg-tactical-dark/50 border-police/30 focus:outline-none focus:border-2 focus:border-police text-white mt-1"/>
+      </div>
+
+      <div>
+        <label class="text-gray-400 text-sm">Situación</label>
+        <input type="text" name="situacion" placeholder="Situación" class="input input-sm w-full bg-tactical-dark/50 border-police/30 focus:outline-none focus:border-2 focus:border-police text-white mt-1"/>
+      </div>
+    </div>
+  </div>
+
+  <!-- Documento Formulado -->
+  <div class="space-y-4">
+    <h3 class="text-lg font-semibold text-police border-b border-police/30">Documento Formulado</h3>
+    
+    <div class="grid grid-cols-3 gap-4">
+      <div>
+        <label class="text-gray-400 text-sm">Oficio</label>
+        <input type="text" name="documentoOficio" placeholder="Nº de oficio" class="input input-sm w-full bg-tactical-dark/50 border-police/30 focus:outline-none focus:border-2 focus:border-police text-white mt-1" />
+      </div>
+      <div>
+        <label class="text-gray-400 text-sm">Informe</label>
+        <input type="text" name="informe" placeholder="Nº de informe" class="input input-sm w-full bg-tactical-dark/50 border-police/30 focus:outline-none focus:border-2 focus:border-police text-white mt-1" />
+      </div>
+      <div>
+        <label class="text-gray-400 text-sm">Año</label>
+        <input type="text" name="anio" placeholder="2026" class="input input-sm w-full bg-tactical-dark/50 border-police/30 focus:outline-none focus:border-2 focus:border-police text-white mt-1" />
+      </div>
+      <div>
+        <label class="text-gray-400 text-sm">Siglas</label>
+        <input type="text" name="siglas" placeholder="Siglas" class="input input-sm w-full bg-tactical-dark/50 border-police/30 focus:outline-none focus:border-2 focus:border-police text-white mt-1" />
+      </div>
+      <div>
+        <label class="text-gray-400 text-sm">Fecha</label>
+        <input type="date" name="fechaDocumento" class="input input-sm w-full bg-tactical-dark/50 border-police/30 focus:outline-none focus:border-2 focus:border-police text-white/50 valid:text-white mt-1" required/>
+      </div>
+      <div>
+        <label class="text-gray-400 text-sm">Folios</label>
+        <input type="number" name="folios" placeholder="Nº de folios" class="input input-sm w-full bg-tactical-dark/50 border-police/30 focus:outline-none focus:border-2 focus:border-police text-white mt-1" />
+      </div>
+      <div class="col-span-3">
+        <label class="text-gray-400 text-sm">Destino</label>
+        <input type="text" name="destino" placeholder="Destino del documento" class="input input-sm w-full bg-tactical-dark/50 border-police/30 focus:outline-none focus:border-2 focus:border-police text-white mt-1" />
+      </div>
+    </div>
+  </div>
+
+  <!-- Observaciones y Evidencias -->
+  <div class="space-y-4">
+    <h3 class="text-lg font-semibold text-police border-b border-police/30">Adicional</h3>
+    
+    <div>
+      <label class="text-gray-400 text-sm">Observaciones</label>
+      <textarea name="observaciones" placeholder="Notas adicionales..." rows="2" class="textarea textarea-sm w-full bg-tactical-dark/50 border-police/30 focus:outline-none focus:border-2 focus:border-police text-white mt-1"></textarea>
+    </div>
+    
+    <div>
+      <label class="text-gray-400 text-sm">Evidencias</label>
+      <input type="file" name="evidencias" multiple class="file-input file-input-sm w-full bg-tactical-dark/50 border-police/30 focus:outline-none focus:border-2 focus:border-police text-white mt-1" />
+    </div>
+  </div>
+
+  <!-- Botones -->
+  <div class="flex gap-3 justify-end pt-4 border-t border-police/30 sticky bottom-0 bg-tactical-dark">
+    <button type="button" class="btn btn-ghost text-gray-400" onclick="this.closest('dialog').close()">
+      Cancelar
+    </button>
+    <button type="submit" class="btn btn-success">
+      <AddIcon class="size-4" />
+      Agregar Carpeta
+    </button>
+  </div>
+</form>
+
+<!--Ocultar Spinners de los input number -->
+<style>
+  input[type="number"]::-webkit-inner-spin-button,
+  input[type="number"]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+  
+  input[type="number"] {
+    -moz-appearance: textfield;
+    appearance: textfield;
+  }
+  
+  input[type="date"]::-webkit-calendar-picker-indicator {
+    filter: invert(0) opacity(0.5);
+    cursor: pointer;
+  }
+  
+  input[type="date"]:valid::-webkit-calendar-picker-indicator {
+    filter: invert(0) opacity(1);
+  }
+</style>
+
